@@ -21,11 +21,17 @@
                 <th>Added</th>
                 <th>Action</th>
             </tr>
+            {% for task in todo%}
             <tr>
-                <td>Content</td>
-                <td>Data</td>
-                <td>More</td>
+                <td>{{task.task}}</td>
+                <td>{{task.date}}</td>
+                <td>
+                <a href="/delete/{{task.id}}">Delete</a>
+                <br>
+                <a href="/edit/{{task.id}}">Edit</a>
+                </td>
             </tr>
+            {% endfor %}
         </table>
         {% endif %}
         <form action="/add" method='POST'>

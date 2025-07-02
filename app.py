@@ -41,6 +41,14 @@ def add():
     save_data(todo)
     return redirect('/')
 
+@app.route('/delete/<id>')
+def delete(id):
+    todo = load_data()
+    todo = [t for t in todo if t['id'] != id]
+    save_data(todo)
+    return redirect('/')
+
+
 
 
 
