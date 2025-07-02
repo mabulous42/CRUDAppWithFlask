@@ -33,6 +33,10 @@ def add():
     task = request.form['task']
     date = datetime.now().strftime("%Y-%m-%d")
     todo = load_data()
+
+    if not task:  # Check if task is empty
+        return redirect('/')  # Just redirect back without adding
+
     todo.append({
         'id': str(uuid.uuid4()),  # Unique identifier
         'task': task,
@@ -47,6 +51,29 @@ def delete(id):
     todo = [t for t in todo if t['id'] != id]
     save_data(todo)
     return redirect('/')
+
+@app.route('/edit/<id>', methods=['GET', 'POST'])
+def edit(id):
+    todo = load_data()
+    todo_item = next((t for t in todo if t['id'] == id), None) #you can use this method too
+    if todo_item == None:
+        return render_template("/")
+    # for t in todo:
+    #     if t["id"] == id:
+    #         todo = t
+
+    if request.method == 'POST':
+        # Find and update the item within the original list
+        for t in todo:
+            if t["id"] == id:
+                t['task'] = request.form['task']
+                t['date'] = datetime.now().strftime("%Y-%m-%d")
+                break
+        save_data(todo)  # Save the entire list, not just one item
+        return redirect("/")
+    else:
+        return render_template('edit.html', todo=todo_item)
+
 
 
 
