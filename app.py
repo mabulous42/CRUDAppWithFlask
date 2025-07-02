@@ -1,4 +1,4 @@
-import json
+import json, uuid
 from flask import Flask, render_template, url_for, redirect, request
 from datetime import datetime
 
@@ -32,13 +32,13 @@ def home():
 def add():
     task = request.form['task']
     date = datetime.now().strftime("%Y-%m-%d")
-    todos = load_data()
-    todos.append({
+    todo = load_data()
+    todo.append({
         'id': str(uuid.uuid4()),  # Unique identifier
         'task': task,
         'date': date
     })
-    save_data(todos)
+    save_data(todo)
     return redirect('/')
 
 
